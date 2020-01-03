@@ -10,30 +10,42 @@ function setup() {
   // put setup code here
 
   cnv = createCanvas(w,h);
+  //cnv = createCanvas(windowWidth,windowHeight);
   background(210);
   // rand = Math.round(Math.random() * 500)
   
   datarows = table.getColumn('Field of study');
   
   //get unique elements of the list
-  const fieldStudies = [...new Set(datarows)];
+  fieldStudies = [...new Set(datarows)];
   
   //get number of each study field
   numOfEachField = getNumOfEachUniqueElement(datarows);
   
-  console.log(numOfEachField)
+  console.log(numOfEachField);
   
-  colors = ['red', 'green', 'purple', 'navy', 'brown', 'blue']
-  
+  colors = ['red', 'green', 'purple', 'navy', 'brown', 'blue'];
+
+  // This stops the draw() function to be always executing
+  noLoop();
+}
+
+/*function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}*/
+
+function draw(x,y,size) {
+  // put drawing code here
   for (let i = 0; i<fieldStudies.length; i++){
     
     console.log(numOfEachField[fieldStudies[i]]);
     
-    let y = num = numOfEachField[fieldStudies[i]]
+    let y = num = numOfEachField[fieldStudies[i]];
     
-    let x = (i*300)+350
+    //let x = (i*300)+350
+    let x = i*300 + 150;
     
-    y = (h - y)/2
+    y = ((h - y)/2) - 150;
     
     drawPoint(x, y, 1, 1, 'black', 8);
     
@@ -42,10 +54,11 @@ function setup() {
     
     // test = round(num * 0.01)
     while (num>0) {
-
+      console.log('Num: ', num);
+      console.log('Radius: ', radius);
       if ( nPoint + 10 < num){
         nPoint += 10
-        radius = nPoint + 10
+        radius = nPoint + 10;
         drawPoint(x, y, radius, nPoint, colors[i], 3);
         num -= nPoint;
         console.log(num)
@@ -57,11 +70,6 @@ function setup() {
     } 
     
   }
-  
-}
-
-function draw(x,y,size) {
-  // put drawing code here
 }
 
 function drawPoint(x0, y0, r, items, color, weight){
