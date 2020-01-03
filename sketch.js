@@ -9,8 +9,8 @@ function preload(){
 function setup() {
   // put setup code here
 
-  //cnv = createCanvas(w,h);
-  cnv = createCanvas(windowWidth,windowHeight);
+  cnv = createCanvas(w,h);
+  //cnv = createCanvas(windowWidth,windowHeight);
   background(210);
   // rand = Math.round(Math.random() * 500)
   
