@@ -11,11 +11,11 @@ function setup() {
   box = createElement('h3', 'Description');
   box.position(1000,20);
 
-  boxText = createElement('p1', 'The aim of this visualization is to show the amount of students who have depressive symptoms by field of study. <br> Each point represents a student with depressive symptoms.');
+  boxText = createElement('p1', 'The aim of this visualization is to show the amount of students who have depressive symptoms by field of study. <br> Each point represents a student with depressive symptoms. <br> The distribution of the circles is to show the different field of studies that exists.');
   boxText.position(1000, 70);
 
-  cnv = createCanvas(w,h);
-  //cnv = createCanvas(windowWidth,windowHeight);
+  //cnv = createCanvas(w,h);
+  cnv = createCanvas(windowWidth,windowHeight);
   //background(210);
   // rand = Math.round(Math.random() * 500)
   
@@ -38,14 +38,17 @@ function setup() {
 function draw(x,y,size) {
   // put drawing code here
   console.log(fieldStudies);
+  // To position in the circles a bit closer
+  // PROBLEM: two cricles collide
+  let aux = 0;
   for (let i = 0; i<fieldStudies.length; i++){
-
+    aux += 150;
     console.log(numOfEachField[fieldStudies[i]]);
     
     let y = num = numOfEachField[fieldStudies[i]];
     
     //let x = (i*300)+350
-    let x = i*300 + 150;
+    let x = i*100 + aux;
     
     y = ((h - y)/2) - 200;
 
@@ -59,7 +62,7 @@ function draw(x,y,size) {
     
     // test = round(num * 0.01)
     while (num>0) {
-      if ( nPoint + 10 < num){
+      if ( nPoint + 10 <= num){
         nPoint += 10
         radius = nPoint + 10;
         drawPoint(x, y, radius, nPoint, colors[i], 3);
@@ -67,7 +70,7 @@ function draw(x,y,size) {
         console.log(num);
         
       } else {
-        drawPoint(x, y, radius +10, num, colors[i], 3);
+        drawPoint(x, y, radius + 10, num, colors[i], 3);
         break;
       }
     }
