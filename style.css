@@ -2,6 +2,30 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+h1 {
+  font-family: "Trebuchet MS", Helvetica, sans-serif; 
+  margin: 10px;
+  width: 700px;
+}
+
+h3, p1 {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+hr { 
+  display: block;
+  overflow: hidden;
+  border-style: inset;
+  border-width: 1px;
+}
+
+div {
+  font-family: "Trebuchet MS", Helvetica, sans-serif; 
+  color: white;
+  background-color: black;
+}
+
 canvas {
   display: block;
 }

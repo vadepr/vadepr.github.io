@@ -11,11 +11,8 @@ function setup() {
   box = createElement('h3', 'Description');
   box.position(1000,20);
 
-  boxText = createElement('p1', 'The aim of this visualization is to show the amount of students who have depressive symptoms by field of study.');
+  boxText = createElement('p1', 'The aim of this visualization is to show the amount of students who have depressive symptoms by field of study. <br> Each point represents a student with depressive symptoms.');
   boxText.position(1000, 70);
-
-  boxText2 = createElement('p2', 'Each point represents a student with depressive symptoms.');
-  boxText2.position(1000, 120);
 
   cnv = createCanvas(w,h);
   //cnv = createCanvas(windowWidth,windowHeight);
