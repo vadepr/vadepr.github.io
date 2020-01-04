@@ -7,11 +7,19 @@ function preload(){
 }
 
 function setup() {
-  // put setup code here
+  header = createElement('h1', 'Field of Study and Depressive symptoms');
+  box = createElement('h3', 'Description');
+  box.position(1000,20);
+
+  boxText = createElement('p1', 'The aim of this visualization is to show the amount of students who have depressive symptoms by field of study.');
+  boxText.position(1000, 70);
+
+  boxText2 = createElement('p2', 'Each point represents a student with depressive symptoms.');
+  boxText2.position(1000, 120);
 
   cnv = createCanvas(w,h);
   //cnv = createCanvas(windowWidth,windowHeight);
-  background(210);
+  //background(210);
   // rand = Math.round(Math.random() * 500)
   
   datarows = table.getColumn('Field of study');
@@ -30,14 +38,11 @@ function setup() {
   noLoop();
 }
 
-/*function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}*/
-
 function draw(x,y,size) {
   // put drawing code here
+  console.log(fieldStudies);
   for (let i = 0; i<fieldStudies.length; i++){
-    
+
     console.log(numOfEachField[fieldStudies[i]]);
     
     let y = num = numOfEachField[fieldStudies[i]];
@@ -45,7 +50,10 @@ function draw(x,y,size) {
     //let x = (i*300)+350
     let x = i*300 + 150;
     
-    y = ((h - y)/2) - 150;
+    y = ((h - y)/2) - 200;
+
+    field = createElement('div', fieldStudies[i]);
+    field.position(x, y + 30);
     
     drawPoint(x, y, 1, 1, 'black', 8);
     
@@ -54,20 +62,18 @@ function draw(x,y,size) {
     
     // test = round(num * 0.01)
     while (num>0) {
-      console.log('Num: ', num);
-      console.log('Radius: ', radius);
       if ( nPoint + 10 < num){
         nPoint += 10
         radius = nPoint + 10;
         drawPoint(x, y, radius, nPoint, colors[i], 3);
         num -= nPoint;
-        console.log(num)
+        console.log(num);
         
       } else {
         drawPoint(x, y, radius +10, num, colors[i], 3);
         break;
       }
-    } 
+    }
     
   }
 }
