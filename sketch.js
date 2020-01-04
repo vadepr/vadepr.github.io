@@ -14,12 +14,10 @@ function setup() {
   separator = createElement('separator');
   separator.position(1000, 20);
 
-  text1 = createElement('p', 'The aim of this visualization is to show the amount of students who have depressive symptoms by field of study.');
-  text1.position(1000, 70);
-  text2 = createElement('p', 'Each point represents a student with depressive symptoms.');
-  text2.position(1000, 120);
-  text3 = createElement('p', 'Each circle represents the different fields of study that the dataset contains.');
-  text3.position(1000, 150);
+  boxText = createElement('p', 'The aim of this visualization is to show the amount of students who have depressive symptoms by field of study. <br> <br>\
+    Each point represents a student with depressive symptoms. <br> <br>\
+    Each circle represents the different fields of study that the dataset contains.');
+  boxText.position(1000, 70);
 
   //cnv = createCanvas(w,h);
   cnv = createCanvas(windowWidth,windowHeight);

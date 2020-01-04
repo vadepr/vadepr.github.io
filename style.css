@@ -8,23 +8,30 @@ h1 {
   font-family: "Trebuchet MS", Helvetica, sans-serif; 
   margin: 10px;
   width: 700px;
+  color:  #008dc9;
 }
 
-h3, p {
+h3 {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
+  color:  #d86421;
+}
+
+p {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  color:  #1b262c;
 }
 
 separator{
   width: 40%;
   height: 47px;
-  border-bottom: 5px solid black;
+  border-bottom: 5px solid #1b262c;
   position: absolute;
 }
 
 field {
   font-family: "Trebuchet MS", Helvetica, sans-serif; 
   color: white;
-  background-color: black;
+  background-color: #1b262c;
 }
 
 canvas {
