@@ -1,6 +1,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  background-color: #f7f7f7;
 }
 
 h1 {
@@ -9,18 +10,18 @@ h1 {
   width: 700px;
 }
 
-h3, p1 {
+h3, p {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
-hr { 
-  display: block;
-  overflow: hidden;
-  border-style: inset;
-  border-width: 1px;
+separator{
+  width: 40%;
+  height: 47px;
+  border-bottom: 5px solid black;
+  position: absolute;
 }
 
-div {
+field {
   font-family: "Trebuchet MS", Helvetica, sans-serif; 
   color: white;
   background-color: black;

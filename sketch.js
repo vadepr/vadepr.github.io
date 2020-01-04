@@ -11,12 +11,18 @@ function setup() {
   box = createElement('h3', 'Description');
   box.position(1000,20);
 
-  boxText = createElement('p1', 'The aim of this visualization is to show the amount of students who have depressive symptoms by field of study. <br> Each point represents a student with depressive symptoms. <br> The distribution of the circles is to show the different field of studies that exists.');
-  boxText.position(1000, 70);
+  separator = createElement('separator');
+  separator.position(1000, 20);
+
+  text1 = createElement('p', 'The aim of this visualization is to show the amount of students who have depressive symptoms by field of study.');
+  text1.position(1000, 70);
+  text2 = createElement('p', 'Each point represents a student with depressive symptoms.');
+  text2.position(1000, 120);
+  text3 = createElement('p', 'Each circle represents the different fields of study that the dataset contains.');
+  text3.position(1000, 150);
 
   //cnv = createCanvas(w,h);
   cnv = createCanvas(windowWidth,windowHeight);
-  //background(210);
   // rand = Math.round(Math.random() * 500)
   
   datarows = table.getColumn('Field of study');
@@ -52,7 +58,7 @@ function draw(x,y,size) {
     
     y = ((h - y)/2) - 200;
 
-    field = createElement('div', fieldStudies[i]);
+    field = createElement('field', fieldStudies[i]);
     field.position(x, y + 30);
     
     drawPoint(x, y, 1, 1, 'black', 8);
