@@ -20,7 +20,14 @@ function setup() {
   boxText.position(1000, 70);
 
   //cnv = createCanvas(w,h);
-  cnv = createCanvas(windowWidth,windowHeight);
+  console.log("window height: ", windowHeight, windowWidth)
+
+  if (windowWidth <1600 || windowHeight <800) {
+    cnv = createCanvas(1600, 800);
+  } else {
+    cnv = createCanvas(windowWidth,windowHeight);
+  }
+  // background(0, 0, 255);
   // rand = Math.round(Math.random() * 500)
   
   datarows = table.getColumn('Field of study');
