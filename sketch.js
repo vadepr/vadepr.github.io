@@ -30,16 +30,36 @@ function setup() {
   // background(0, 0, 255);
   // rand = Math.round(Math.random() * 500)
   
-  datarows = table.getColumn('Field of study');
+  fieldCol = table.getColumn('Field of study');
+  studentsDepr = table.findRows("yes", "Depressive symptoms"); // Take only students with depression
   
   //get unique elements of the list
-  fieldStudies = [...new Set(datarows)];
+  fieldStudies = [...new Set(fieldCol)];
   
   //get number of each study field
-  numOfEachField = getNumOfEachUniqueElement(datarows);
+  numOfEachField = getNumOfEachUniqueElement(fieldCol);
   
   console.log(numOfEachField);
+
+  // Students with depression by field
+  studentsByField = createArrayByField(fieldStudies, studentsDepr);
+  console.log(studentsByField);
+
+  // Percentages
+  // TODO: think on how are we going to use these percentages
+  total = 0;
+  percentages = {};
   
+  // TODO: Improve this if possible
+  for(let i=0; i<fieldStudies.length; i++) {
+    total += studentsByField[fieldStudies[i]].length;
+  }
+
+  for (let i=0; i<fieldStudies.length; i++) {
+    percentages[fieldStudies[i]] = (studentsByField[fieldStudies[i]].length/total)*100;
+  }
+
+  console.log(percentages);
   colors = ['red', 'green', 'purple', 'navy', 'brown', 'blue'];
 
   // This stops the draw() function to be always executing
@@ -56,12 +76,12 @@ function draw(x,y,size) {
     aux += 150;
     console.log(numOfEachField[fieldStudies[i]]);
     
-    let y = num = numOfEachField[fieldStudies[i]];
+    let y = num = studentsByField[fieldStudies[i]].length;
     
     //let x = (i*300)+350
     let x = i*100 + aux;
     
-    y = ((h - y)/2) - 200;
+    y = ((h - y)/2) - num - 500;
 
     field = createElement('field', fieldStudies[i]);
     field.position(x, y + 30);
@@ -76,12 +96,12 @@ function draw(x,y,size) {
       if ( nPoint + 10 <= num){
         nPoint += 10
         radius = nPoint + 10;
-        drawPoint(x, y, radius, nPoint, colors[i], 3);
+        drawPoint(x, y, radius, nPoint, colors[i], 6);
         num -= nPoint;
         console.log(num);
         
       } else {
-        drawPoint(x, y, radius + 10, num, colors[i], 3);
+        drawPoint(x, y, radius + 10, num, colors[i], 6);
         break;
       }
     }
@@ -113,6 +133,25 @@ function getNumOfEachUniqueElement(datarows) {
   }
   
   return result;
+}
+
+// Creates an array for each students in an specific field
+function createArrayByField(arrFields, data) {
+  let studentsDepr = [];
+  var myObject = {};
+  
+  for (var i=0; i<arrFields.length; i++) {
+    studentsDepr = [];
+
+    for (var j=0; j<data.length; j++) {
+      if (data[j].obj['Field of study'] == arrFields[i]) {
+        studentsDepr.push(data[j]);
+      }
+    }
+    myObject[arrFields[i]] = studentsDepr;
+  }
+
+  return myObject;
 }
 
 function showDetail() {
