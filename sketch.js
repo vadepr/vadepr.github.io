@@ -38,6 +38,8 @@ var options = {
   }
 }
 
+var point_position = []
+
 
 ///////////////////////// Sketch One ////////////////////////////////////
 //////////////////////////////////////////////////////////////
@@ -48,18 +50,6 @@ var sketch1 = function( self ) { // p could be any variable name
   }
 
   self.setup = function() {
-
-    //header = self.createElement('h1', 'Field of Study and Depressive symptoms');
-    //box = self.createElement('h3', 'Description');
-    //box.position(1000,20);
-
-    // separator = createElement('separator');
-    // separator.position(1000, 20);
-
-    // boxText = createElement('p', 'The aim of this visualization is to show the amount of students who have depressive symptoms by field of study. <br> <br>\
-    //   Each point represents a student with depressive symptoms. <br> <br>\
-    //   Each circle represents the different fields of study that the dataset contains.');
-    // boxText.position(1000, 70);
 
     // if (windowWidth <1600 || windowHeight <800) {
     //   cnv = p.createCanvas(1600, 800);
@@ -115,61 +105,78 @@ var sketch1 = function( self ) { // p could be any variable name
       fieldY += 30;
     }
 
-    // This stops the draw() function to be always executing
-    self.noLoop();
+  ////////////////////////////////////////////////////////////////////////////////////////////
+   // Drawing the axis
+   self.stroke('#8B98AA');
+   //self.line(w-1920, h-1920, w-1920, h-1350);
+   self.line(w-1920, h-1350, w-500, h-1350);
+
+   // console.log(fieldStudies);
+   // To position in the circles a bit closer
+   // PROBLEM: two cricles collide
+   let aux = 0;
+   for (let i = 0; i<fieldStudies.length; i++){
+     aux += 150;
+     // console.log(numOfEachField[fieldStudies[i]]);
+     
+     let y = num = studentsByField[fieldStudies[i]].length;
+     
+     //let x = (i*300)+350
+     let x = i*5 + aux;
+     
+     y = ((h - y)/2) - num - 500;
+
+    // Lines to the x axis
+    self.stroke('#8B98AA');
+    self.strokeWeight(1);
+    self.drawingContext.setLineDash([5, 15]);
+    self.line(x, y+5, x, h-1350);
+
+    field = self.createElement('field', fieldStudies[i]);
+    field.position(x-30, h-550);
+
+    // Center of the circles
+    drawPoint(self, x, y, 1, 1, 'black', 8);
+    
+    let nPoint = 0;
+    let radius = 0;
+    
+    // test = round(num * 0.01)
+    while (num>0) {
+      if ( nPoint + 10 <= num){
+        nPoint += 10;
+        radius = nPoint + 10;
+        positions = drawPoint(self, x, y, radius, nPoint, colors[i], 6);
+        point_position.push(...positions)
+        num -= nPoint;
+      } else {
+        positions = drawPoint(self, x, y, radius + 10, num, colors[i], 6);
+        point_position.push(...positions)
+        break;
+      }
+    }
+    
+    
   }
 
+    // This stops the draw() function to be always executing
+    // self.noLoop();
+
+    console.log(point_position)
+  }
 
   self.draw = function(x,y,size) {
-    // Drawing the axis
-    self.stroke('#8B98AA');
-    //self.line(w-1920, h-1920, w-1920, h-1350);
-    self.line(w-1920, h-1350, w-500, h-1350);
+    self.frameRate(8);
+    self.text("X: "+self.mouseX, 0, self.height/4);
+    self.text("Y: "+self.mouseY, 0, self.height/2);
 
-    // console.log(fieldStudies);
-    // To position in the circles a bit closer
-    // PROBLEM: two cricles collide
-    let aux = 0;
-    for (let i = 0; i<fieldStudies.length; i++){
-      aux += 150;
-      // console.log(numOfEachField[fieldStudies[i]]);
-      
-      let y = num = studentsByField[fieldStudies[i]].length;
-      
-      //let x = (i*300)+350
-      let x = i*5 + aux;
-      
-      y = ((h - y)/2) - num - 500;
-
-      // Lines to the x axis
-      self.stroke('#8B98AA');
-      self.strokeWeight(1);
-      self.drawingContext.setLineDash([5, 15]);
-      self.line(x, y+5, x, h-1350);
-
-      field = self.createElement('field', fieldStudies[i]);
-      field.position(x-30, h-550);
-
-      // Center of the circles
-      drawPoint(self, x, y, 1, 1, 'black', 8);
-      
-      let nPoint = 0;
-      let radius = 0;
-      
-      // test = round(num * 0.01)
-      while (num>0) {
-        if ( nPoint + 10 <= num){
-          nPoint += 10;
-          radius = nPoint + 10;
-          drawPoint(self, x, y, radius, nPoint, colors[i], 6);
-          num -= nPoint;
-        } else {
-          drawPoint(self, x, y, radius + 10, num, colors[i], 6);
-          break;
-        }
+    for(let i=0; i<point_position.length; i++){
+      px = point_position[i][0]
+      py = point_position[i][1]
+      if (self.mouseX >= (px-10) && self.mouseX <= px+10 && self.mouseY >= (py-10) && self.mouseY <= (py +10) ){
+        self.point(px, py)
+        console.log("Student Age: ", studentsDepr[i].arr[0] , " Student Gender:", studentsDepr[i].arr[1], " Field Studies:", studentsDepr[i].arr[3])
       }
-      
-      
     }
   }
 };
@@ -261,6 +268,8 @@ var createArrayByField = function(arrFields, data) {
 //Function to draw point
 var drawPoint = function(self, x0, y0, r, items, color, weight){
   
+  var position_list = [];
+
   for(var i = 0; i < items; i++) {
     
       var x = x0 + r * Math.cos(2 * Math.PI * i / items);
@@ -269,7 +278,10 @@ var drawPoint = function(self, x0, y0, r, items, color, weight){
       self.strokeWeight(weight); // Make the points n pixels in size
       self.point(x, y)
 
+      position_list.push([x, y])
   }
+
+  return position_list
 }
 
 // Get the number of male and female who suffer from depression
