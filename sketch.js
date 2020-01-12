@@ -3,6 +3,42 @@
 var w = 2000;
 var h = 2000;
 
+data = {
+  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  datasets: [{
+      label: '# of Votes',
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+  }]
+};
+
+var options = {
+  scales: {
+      yAxes: [{
+          ticks: {
+              beginAtZero: true
+          }
+      }]
+  }
+}
+
+
 ///////////////////////// Sketch One ////////////////////////////////////
 //////////////////////////////////////////////////////////////
 var sketch1 = function( self ) { // p could be any variable name
@@ -13,9 +49,9 @@ var sketch1 = function( self ) { // p could be any variable name
 
   self.setup = function() {
 
-    // header = createElement('h1', 'Field of Study and Depressive symptoms');
-    // box = createElement('h3', 'Description');
-    // box.position(1000,20);
+    //header = self.createElement('h1', 'Field of Study and Depressive symptoms');
+    //box = self.createElement('h3', 'Description');
+    //box.position(1000,20);
 
     // separator = createElement('separator');
     // separator.position(1000, 20);
@@ -32,43 +68,64 @@ var sketch1 = function( self ) { // p could be any variable name
     // }
 
     cnv = self.createCanvas(1600, 800);
+    cnv.position(0, 800)
     
     fieldCol = table.getColumn('Field of study');
     studentsDepr = table.findRows("yes", "Depressive symptoms"); // Take only students with depression
-    
     //get unique elements of the list
     fieldStudies = [...new Set(fieldCol)];
+
+    totalStudentsField = {};
+    for(let i=0; i<fieldStudies.length; i++) {
+      totalStudentsField[fieldStudies[i]] = table.findRows(fieldStudies[i], "Field of study").length;
+    }
     
     //get number of each study field
     numOfEachField = getNumOfEachUniqueElement(fieldCol);
 
     // Students with depression by field
     studentsByField = createArrayByField(fieldStudies, studentsDepr);
+    
+    // Total of students by field
     // console.log(studentsByField);
-
-    // Percentages
-    // TODO: think on how are we going to use these percentages
     total = 0;
     percentages = {};
-    
     // TODO: Improve this if possible
     for(let i=0; i<fieldStudies.length; i++) {
       total += studentsByField[fieldStudies[i]].length;
     }
-
     for (let i=0; i<fieldStudies.length; i++) {
-      percentages[fieldStudies[i]] = (studentsByField[fieldStudies[i]].length/total)*100;
+      percentages[fieldStudies[i]] = studentsByField[fieldStudies[i]].length;
     }
 
-    // console.log(percentages);
-    colors = ['red', 'green', 'purple', 'navy', 'brown', 'blue'];
+    colors = ['#ff7315', 'green', 'purple', '#f0134d', '#ffc55c', '#3282b8'];
+
+    // Creating the legend
+    legend = self.createElement('leg');
+    legend.position(w-500-300, 900);
+
+    fieldX = w-750;
+    fieldY = 910;
+    for (let i=0; i<fieldStudies.length; i++) {
+      labelCol = self.createElement('labelCol');
+      labelCol.position(fieldX-35, fieldY + 3);
+      labelCol.style('background-color', colors[i]);
+      labelDesc = self.createElement('labelDesc', percentages[fieldStudies[i]] + ' out of ' + totalStudentsField[fieldStudies[i]] + ' students');
+      labelDesc.position(fieldX, fieldY);
+      fieldY += 30;
+    }
 
     // This stops the draw() function to be always executing
     self.noLoop();
   }
 
+
   self.draw = function(x,y,size) {
-    // put drawing code here
+    // Drawing the axis
+    self.stroke('#8B98AA');
+    //self.line(w-1920, h-1920, w-1920, h-1350);
+    self.line(w-1920, h-1350, w-500, h-1350);
+
     // console.log(fieldStudies);
     // To position in the circles a bit closer
     // PROBLEM: two cricles collide
@@ -80,13 +137,20 @@ var sketch1 = function( self ) { // p could be any variable name
       let y = num = studentsByField[fieldStudies[i]].length;
       
       //let x = (i*300)+350
-      let x = i*100 + aux;
+      let x = i*5 + aux;
       
       y = ((h - y)/2) - num - 500;
 
+      // Lines to the x axis
+      self.stroke('#8B98AA');
+      self.strokeWeight(1);
+      self.drawingContext.setLineDash([5, 15]);
+      self.line(x, y+5, x, h-1350);
+
       field = self.createElement('field', fieldStudies[i]);
-      field.position(x, y + 30);
-      
+      field.position(x-30, h-550);
+
+      // Center of the circles
       drawPoint(self, x, y, 1, 1, 'black', 8);
       
       let nPoint = 0;
@@ -95,7 +159,7 @@ var sketch1 = function( self ) { // p could be any variable name
       // test = round(num * 0.01)
       while (num>0) {
         if ( nPoint + 10 <= num){
-          nPoint += 10
+          nPoint += 10;
           radius = nPoint + 10;
           drawPoint(self, x, y, radius, nPoint, colors[i], 6);
           num -= nPoint;
@@ -104,6 +168,7 @@ var sketch1 = function( self ) { // p could be any variable name
           break;
         }
       }
+      
       
     }
   }
@@ -120,38 +185,41 @@ var sketch2 = function( self, table ) { // p could be any variable name
 
   self.setup = function() {
 
-    cnv = self.createCanvas(100, 20);
+    cnv = self.createCanvas(1600, 800);
+    cnv.position(0, 1600);
 
-    // self.background(0, 0, 255);
-    rand = Math.round(Math.random() * 500)
-
-    var myPieChart = new Chart(cnv, {
-      type: 'pie',
-      data: {
-        labels: ["Non-Depressed", "Depressed"],
-        datasets: [{
-          label: "Number of students",
-          backgroundColor: ["#3e95cd", "#8e5ea2"],
-          data: [1000,200]
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Number of student in dataset'
-        }
-      }
-    });
+    self.background(0, 0, 255);
+    
+    studentsDepr = table.findRows("yes", "Depressive symptoms"); // Take only students with depression
+    gender = getGender(self, studentsDepr);
+    console.log(gender);
 
     // This stops the draw() function to be always executing
     self.noLoop();
   }
 
   self.draw = function() {
-
+    var myPieChart = new Chart(cnv, {
+      type: 'doughnut',
+      data: {
+        labels: ['Male', 'Female'],
+        datasets: [{
+          label: '# of Votes', 
+          data: [gender['male'].length, gender['female'].length],
+          backgroundColor: [
+            'rgb(255,99,132)',
+            'rgb(255,205,86)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: options
+    });
   }
 };
 var myp5 = new p5(sketch2, 's2');
+
+
 
 
 
@@ -202,4 +270,22 @@ var drawPoint = function(self, x0, y0, r, items, color, weight){
       self.point(x, y)
 
   }
+}
+
+// Get the number of male and female who suffer from depression
+var getGender = function(self, data) {
+  genderDepr = {};
+  males = [];
+  females = [];
+  for (var i=0; i<data.length; i++) {
+    if (data[i].obj['Gender'] == 'male') {
+      males.push(data[i]);
+    } else {
+      females.push(data[i]);
+    }
   }
+  genderDepr['female'] = females;
+  genderDepr['male'] = males;
+
+  return genderDepr;
+}
