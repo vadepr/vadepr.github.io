@@ -3,6 +3,9 @@
 var w = 2000;
 var h = 2000;
 
+//Store the center of each circle
+var center_points = [];
+
 data = {
   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
   datasets: [{
@@ -69,12 +72,14 @@ var sketch1 = function( self ) { // p could be any variable name
     for(let i=0; i<fieldStudies.length; i++) {
       totalStudentsField[fieldStudies[i]] = table.findRows(fieldStudies[i], "Field of study").length;
     }
-    
+
     //get number of each study field
     numOfEachField = getNumOfEachUniqueElement(fieldCol);
 
     // Students with depression by field
     studentsByField = createArrayByField(fieldStudies, studentsDepr);
+
+    console.log("here is", studentsByField)
     
     // Total of students by field
     // console.log(studentsByField);
@@ -105,80 +110,126 @@ var sketch1 = function( self ) { // p could be any variable name
       fieldY += 30;
     }
 
-  ////////////////////////////////////////////////////////////////////////////////////////////
-   // Drawing the axis
-   self.stroke('#8B98AA');
-   //self.line(w-1920, h-1920, w-1920, h-1350);
-   self.line(w-1920, h-1350, w-500, h-1350);
-
-   // console.log(fieldStudies);
-   // To position in the circles a bit closer
-   // PROBLEM: two cricles collide
-   let aux = 0;
-   for (let i = 0; i<fieldStudies.length; i++){
-     aux += 150;
-     // console.log(numOfEachField[fieldStudies[i]]);
-     
-     let y = num = studentsByField[fieldStudies[i]].length;
-     
-     //let x = (i*300)+350
-     let x = i*5 + aux;
-     
-     y = ((h - y)/2) - num - 500;
-
-    // Lines to the x axis
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // Drawing the axis
     self.stroke('#8B98AA');
-    self.strokeWeight(1);
-    self.drawingContext.setLineDash([5, 15]);
-    self.line(x, y+5, x, h-1350);
+    //self.line(w-1920, h-1920, w-1920, h-1350);
+    self.line(w-1920, h-1350, w-500, h-1350);
 
-    field = self.createElement('field', fieldStudies[i]);
-    field.position(x-30, h-550);
+    // console.log(fieldStudies);
+    // To position in the circles a bit closer
+    // PROBLEM: two cricles collide
+    let aux = 0;
+    for (let i = 0; i<fieldStudies.length; i++){
+    
+      aux += 150;
+      // console.log(numOfEachField[fieldStudies[i]]);
+
+      var point_list = []
+      
+      let y = num = studentsByField[fieldStudies[i]].length;
+      
+      //let x = (i*300)+350
+      let x = i*5 + aux;
+      
+      y = ((h - y)/2) - num - 500;
+
+      //Store the center_point of each circle for using in Draw() function
+      center_points.push([x, y]);
+
+      // Lines to the x axis
+      self.stroke('#8B98AA');
+      self.strokeWeight(1);
+      self.drawingContext.setLineDash([5, 15]);
+      self.line(x, y+5, x, h-1350);
+
+      field = self.createElement('field', fieldStudies[i]);
+      field.position(x-30, h-550);
+
+      // Center of the circles
+      drawPoint(self, x, y, 1, 1, 'black', 8);
+      
+      let nPoint = 0;
+      let radius = 0;
+      
+      // test = round(num * 0.01)
+      while (num>0) {
+        if ( nPoint + 10 <= num){
+          nPoint += 10;
+          radius = nPoint + 10;
+          positions = drawPoint(self, x, y, radius, nPoint, colors[i], 6);
+          point_list.push(...positions);
+          num -= nPoint;
+        } else {
+          positions = drawPoint(self, x, y, radius + 10, num, colors[i], 6);
+          point_list.push(...positions);
+          break;
+        }
+      }
+      
+      point_position.push(point_list);
+    }
+
+    console.log("point_position", point_position);
+  }
+
+  //Function Draw
+  self.draw = function(x,y,size) {
+    self.background(247, 247, 247);
 
     // Center of the circles
-    drawPoint(self, x, y, 1, 1, 'black', 8);
-    
-    let nPoint = 0;
-    let radius = 0;
-    
-    // test = round(num * 0.01)
-    while (num>0) {
-      if ( nPoint + 10 <= num){
-        nPoint += 10;
-        radius = nPoint + 10;
-        positions = drawPoint(self, x, y, radius, nPoint, colors[i], 6);
-        point_position.push(...positions)
-        num -= nPoint;
-      } else {
-        positions = drawPoint(self, x, y, radius + 10, num, colors[i], 6);
-        point_position.push(...positions)
-        break;
-      }
+    for (let i=0; i<center_points.length; i++){
+      drawPoint(self, center_points[i][0], center_points[i][1], 1, 1, 'black', 8);
+      // Lines to the x axis
+      self.stroke('#8B98AA');
+      self.strokeWeight(1);
+      self.drawingContext.setLineDash([5, 15]);
+      self.line(center_points[i][0], center_points[i][1]+5, center_points[i][0], h-1350);
     }
+
+    // Drawing the axis
+    self.stroke('#8B98AA');
+    //self.line(w-1920, h-1920, w-1920, h-1350);
+    self.line(w-1920, h-1350, w-500, h-1350);
     
-    
-  }
-
-    // This stops the draw() function to be always executing
-    // self.noLoop();
-
-    console.log(point_position)
-  }
-
-  self.draw = function(x,y,size) {
-    self.frameRate(8);
-    self.text("X: "+self.mouseX, 0, self.height/4);
-    self.text("Y: "+self.mouseY, 0, self.height/2);
+    self.frameRate(15);
 
     for(let i=0; i<point_position.length; i++){
-      px = point_position[i][0]
-      py = point_position[i][1]
-      if (self.mouseX >= (px-10) && self.mouseX <= px+10 && self.mouseY >= (py-10) && self.mouseY <= (py +10) ){
-        self.point(px, py)
-        console.log("Student Age: ", studentsDepr[i].arr[0] , " Student Gender:", studentsDepr[i].arr[1], " Field Studies:", studentsDepr[i].arr[3])
+      for(let j=0; j<point_position[i].length; j++){
+        px = point_position[i][j][0]; // point_position is a 2d array of vector. so 0 is x, 1 is y.
+        py = point_position[i][j][1];
+        if (self.mouseX >= (px-5) && self.mouseX <= px+5 && self.mouseY >= (py-5) && self.mouseY <= (py +5) ){
+          let detail = "Age: "+ studentsByField[fieldStudies[i]][j].arr[0]
+                + "\nGender: "+ studentsByField[fieldStudies[i]][j].arr[1]
+                + "\nFrench Nationality: " + studentsByField[fieldStudies[i]][j].arr[2]
+                + "\nField Studies: "+ studentsByField[fieldStudies[i]][j].arr[3]
+                + "\nYear: " + studentsByField[fieldStudies[i]][j].arr[4]
+                + "\nLearning Disability: " + studentsByField[fieldStudies[i]][j].arr[5]
+                + "\nDrink: " + studentsByField[fieldStudies[i]][j].arr[57];
+                
+          //Show the detail in the black retangle
+          self.noStroke();
+          rect = self.rect(10,10,270,150);
+          rect.fill('255');
+          text = self.text(detail, 20, 20, 270, 150);
+          text.fill(0);
+          text.textSize(13);
+
+          // Set the Stroke for the point when hover
+          self.stroke(50, 168, 160); // Change the color of the point that being hover
+          self.strokeWeight(12); // Make the points n pixels in size.
+        } else {
+          // Set the stroke back to normal when the point stop hovering
+          self.stroke(colors[i]); 
+          self.strokeWeight(6); 
+        }
+
+        self.point(px, py)// draw new point
       }
+      
     }
   }
+
 };
 var myp5 = new p5(sketch1, 's1');
 
