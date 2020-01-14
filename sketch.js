@@ -103,10 +103,6 @@ var sketch1 = function( self ) { // p could be any variable name
     descSketch1 = self.createElement('p', 'This visualization represents the students with depressive symptoms in each field of study.');
     descSketch1.position(w-500-300, 1800);
 
-    // Test
-    let div = createDiv('').size(100, 100);
-    div.html('World', true);
-
     // Creating the legend
     legend = self.createElement('leg');
     legend.position(w-500-310, 2100);
