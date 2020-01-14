@@ -61,7 +61,7 @@ var sketch1 = function( self ) { // p could be any variable name
     // }
 
     cnv = self.createCanvas(1600, 800);
-    cnv.position(0, 800)
+    cnv.position(0, 1700)
     
     fieldCol = table.getColumn('Field of study');
     studentsDepr = table.findRows("yes", "Depressive symptoms"); // Take only students with depression
@@ -95,12 +95,24 @@ var sketch1 = function( self ) { // p could be any variable name
 
     colors = ['#ff7315', 'green', 'purple', '#f0134d', '#ffc55c', '#3282b8'];
 
+    // Title of Sketch 1
+    titleSketch1 = self.createElement('h3', '<b>Field of study</b>');
+    titleSketch1.position(0, 1750);
+
+    // Description of Sketch 1
+    descSketch1 = self.createElement('p', 'This visualization represents the students with depressive symptoms in each field of study.');
+    descSketch1.position(w-500-300, 1800);
+
+    // Test
+    let div = createDiv('').size(100, 100);
+    div.html('World', true);
+
     // Creating the legend
     legend = self.createElement('leg');
-    legend.position(w-500-300, 900);
+    legend.position(w-500-310, 2100);
 
     fieldX = w-750;
-    fieldY = 910;
+    fieldY = 2110;
     for (let i=0; i<fieldStudies.length; i++) {
       labelCol = self.createElement('labelCol');
       labelCol.position(fieldX-35, fieldY + 3);
@@ -144,7 +156,7 @@ var sketch1 = function( self ) { // p could be any variable name
       self.line(x, y+5, x, h-1350);
 
       field = self.createElement('field', fieldStudies[i]);
-      field.position(x-30, h-550);
+      field.position(x-30, h+350);
 
       // Center of the circles
       drawPoint(self, x, y, 1, 1, 'black', 8);
@@ -201,7 +213,7 @@ var sketch1 = function( self ) { // p could be any variable name
         if (self.mouseX >= (px-5) && self.mouseX <= px+5 && self.mouseY >= (py-5) && self.mouseY <= (py +5) ){
           let detail = "Age: "+ studentsByField[fieldStudies[i]][j].arr[0]
                 + "\nGender: "+ studentsByField[fieldStudies[i]][j].arr[1]
-                + "\nFrench Nationality: " + studentsByField[fieldStudies[i]][j].arr[2]
+                //+ "\nFrench Nationality: " + studentsByField[fieldStudies[i]][j].arr[2]
                 + "\nField Studies: "+ studentsByField[fieldStudies[i]][j].arr[3]
                 + "\nYear: " + studentsByField[fieldStudies[i]][j].arr[4]
                 + "\nLearning Disability: " + studentsByField[fieldStudies[i]][j].arr[5]
@@ -209,10 +221,10 @@ var sketch1 = function( self ) { // p could be any variable name
                 
           //Show the detail in the black retangle
           self.noStroke();
-          rect = self.rect(10,10,270,150);
-          rect.fill('255');
-          text = self.text(detail, 20, 20, 270, 150);
-          text.fill(0);
+          rect = self.rect(self.mouseX,100,250,120, 5);
+          rect.fill('#f7f7f7');
+          text = self.text(detail, self.mouseX + 10, 100 + 10, 270, 150);
+          text.fill('#008dc9');
           text.textSize(13);
 
           // Set the Stroke for the point when hover
@@ -244,7 +256,7 @@ var sketch2 = function( self, table ) { // p could be any variable name
   self.setup = function() {
 
     cnv = self.createCanvas(1600, 800);
-    cnv.position(0, 1600);
+    cnv.position(0, 900);
 
     self.background(0, 0, 255);
     

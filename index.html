@@ -11,7 +11,7 @@
   </head>
   <body>
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #008dc9; height: 56px;">
+    <!--<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #008dc9; height: 56px;">
       <a class="navbar-brand" style="color:white" href="#">Visualizations</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -26,24 +26,64 @@
           </li>
         </ul>
       </div>
-    </nav>
+    </nav>-->
 
     <!-- INTRODUCTION -->
     <div class="introduction">
-      <h1>Mental Health and Students</h1><br>
-      <p id="disclaimer"><b>Disclaimer: </b> We are mere students not experts. This is part of a project with the purpose of learning how to visualize data. </p>
-      <h2>TODO: HERE WE'LL PUT WHERE IS OUR DATA FROM AND WHAT ARE WE WANTING TO SHOW IN THIS DATA</h2>
+      <div id="text">
+        <h1 id="main">Mental Health and Students</h1><br>
+        <p id="disclaimer"><b>Disclaimer: </b> We are mere students not experts. This is part of a project with the purpose of learning how to visualize data. </p>
+        <p id="introDepr">
+          According to the World Health Organization (<a href="https://www.who.int/news-room/fact-sheets/detail/adolescent-mental-health">WHO</a>), half of all mental health conditions start in the adolescence but most of them are undetected or untreated.
+          Being depression the one leading causing illnesses and disability. 
+          There are a lot of factors that make adolescents vulnerable to mental health problems.</p> <br>
+        <h2 id=titleDataset><b>About the dataset used</b></h2>
+        <p id="introDepr">
+          Therefore, we wanted to make an exploratory research in this area using data of students from a French university published by <a href="https://datadryad.org/stash/dataset/doi:10.5061/dryad.54qt7">Dryad</a>. <br>
+          This dataset was created to evaluate the health and lifestyle of undergraduates and asses risk factors associated with psychriatic symptoms. 
+          The data was recollected by the medical service of the unversitity by making the students undergo to a compulsory medical visit. 
+          This data includes the lifestyle of the students and prevalence to psychriatic symptoms.  
+          With this webpage we only want to inform about this mental health problem.
+        </p>
+        <br>
+        <h2 id=titleDataset><b>Visualizations</b></h2>
+        <div id="visualizations" class="container">
+          <div class="row" style="text-align: center;">
+            <div class="col-sm" style="display: inline-block;">
+              <button id="visButton" type="button" class="btn btn-danger" onclick="moveToPie()">Vis 2</button>
+            </div>
+            <div class="col-sm" style="display: inline-block;">
+              <button id="visButton" type="button" class="btn btn-success" onclick="moveToFieldStudy()">Field of Study</button>
+            </div>
+            <div class="col-sm" style="display: inline-block;">
+              <button id="visButton" type="button" class="btn btn-warning">Vis 3</button>
+            </div>
+            <!--<div class="col-md-12">
+              <div class="main-timeline">
+                <a href="#" class="timeline">
+                  <div class="timeline-content">
+                    <h3 class="title">Field of study</h3> 
+                  </div>
+                </a>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
     </div>
+
+    
+
 
     <div id="s1"></div><br>
     <div id="s2"></div>
     <script src="sketch.js"></script>    
     <script>
       function moveToFieldStudy() {
-        window.scrollTo(0, 700);
+        window.scrollTo(0, 1700);
       }
       function moveToPie() {
-        window.scrollTo(0, 1500);
+        window.scrollTo(0, 700);
       }
     </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
