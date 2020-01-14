@@ -2,8 +2,8 @@
     <script src="p5.js"></script>
     <script src="p5.sound.min.js"></script>
     <!-- Import chartjs -->
-    <!--<script src="node_modules/chart.js/dist/Chart.js"></script>-->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="node_modules/chart.js/dist/Chart.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -75,9 +75,12 @@
     
 
 
-    <div id="s1"></div><br>
-    <div id="s2"></div>
-    <script src="sketch.js"></script>    
+    <div id="s1"></div>
+    <div style="width: 100%; display: flex; justify-content: center;">
+      <p id="s2" style="width: 35%; height: 90%; display: flex;"></p>
+      <p id="s3" style="width: 35%; height: 90%; display: flex;"></p>
+    </div>
+    <script src="sketch.js"></script>   
     <script>
       function moveToFieldStudy() {
         window.scrollTo(0, 1700);

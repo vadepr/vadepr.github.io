@@ -6,29 +6,12 @@ var h = 2000;
 //Store the center of each circle
 var center_points = [];
 
-data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-      ],
-      borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-      ],
-      borderWidth: 1
-  }]
+//Flag for filter
+var isFilter = {
+    field: false,
+    gender: false,
+    year: false,
+    learning_disability: false,
 };
 
 var options = {
@@ -46,7 +29,7 @@ var point_position = []
 
 ///////////////////////// Sketch One ////////////////////////////////////
 //////////////////////////////////////////////////////////////
-var sketch1 = function( self ) { // p could be any variable name
+var sketch1 = function( self ) { // self could be any variable name
 
   self.preload = function() {
     table = self.loadTable("data/database-well-being-of-students-in-Nice.csv","csv","header");
@@ -104,8 +87,8 @@ var sketch1 = function( self ) { // p could be any variable name
     descSketch1.position(w-500-300, 1800);
 
     // Test
-    let div = createDiv('').size(100, 100);
-    div.html('World', true);
+    // let div = createDiv('').size(100, 100);
+    // div.html('World', true);
 
     // Creating the legend
     legend = self.createElement('leg');
@@ -180,7 +163,41 @@ var sketch1 = function( self ) { // p could be any variable name
       }
       
       point_position.push(point_list);
-    }
+
+
+      //Uncomment These Line to use 4 Button 
+      
+
+      // // Create a Filter Button for Gender
+      // field_btn = self.createButton('Study Field');
+      // field_btn.position(10, h-150);
+      // field_btn.mousePressed(function() { onChange("field");});
+
+      // // Create a Filter Button for Gender
+      // gender_btn = self.createButton('Gender');
+      // gender_btn.position(100, h-150);
+      // gender_btn.mousePressed(function() { onChange("gender");});
+
+      // // Create a Filter Button for switch Year
+      // year_btn = self.createButton('Year of Study');
+      // year_btn.position(180, h-150);
+      // year_btn.mousePressed(function() { onChange("year");});
+
+      // // Create a Filter Button for switch Learning Disability
+      // learn_btn = self.createButton('Learning Disability');
+      // learn_btn.position(300, h-150);
+      // learn_btn.mousePressed(function() { onChange("learning_disability");});
+
+
+      //DropDown Selection
+      sel = self.createSelect();
+      sel.position(100, h-150);
+      sel.option('field');
+      sel.option('gender');
+      sel.option('year');
+      sel.option('learning_disability');
+      sel.changed(onChange);
+        }
 
     console.log("point_position", point_position);
   }
@@ -210,6 +227,7 @@ var sketch1 = function( self ) { // p could be any variable name
       for(let j=0; j<point_position[i].length; j++){
         px = point_position[i][j][0]; // point_position is a 2d array of vector. so 0 is x, 1 is y.
         py = point_position[i][j][1];
+        //Check if the mouse is hover on the position of the points
         if (self.mouseX >= (px-5) && self.mouseX <= px+5 && self.mouseY >= (py-5) && self.mouseY <= (py +5) ){
           let detail = "Age: "+ studentsByField[fieldStudies[i]][j].arr[0]
                 + "\nGender: "+ studentsByField[fieldStudies[i]][j].arr[1]
@@ -231,9 +249,47 @@ var sketch1 = function( self ) { // p could be any variable name
           self.stroke(50, 168, 160); // Change the color of the point that being hover
           self.strokeWeight(12); // Make the points n pixels in size.
         } else {
-          // Set the stroke back to normal when the point stop hovering
-          self.stroke(colors[i]); 
-          self.strokeWeight(6); 
+
+              // Filter by Gender
+              if (isFilter.gender){
+                if (studentsByField[fieldStudies[i]][j].arr[1] == 'male'){ // If the gender of the point is male
+                  self.stroke(103, 20, 227); 
+                  self.strokeWeight(6);
+                } else { // If the gender of the point is female
+                  self.stroke(219, 147, 207); 
+                  self.strokeWeight(6);
+                }
+              }
+
+              //Filter by Year of Study
+              else if (isFilter.year){
+                if (studentsByField[fieldStudies[i]][j].arr[4] == 'first'){ // For Student First Year
+                  self.stroke(194, 81, 109); 
+                  self.strokeWeight(6);
+                } else if(studentsByField[fieldStudies[i]][j].arr[4] == 'second'){ // For Student Second Year
+                  self.stroke(99, 199, 97); 
+                  self.strokeWeight(6);
+                } else { // For the rest
+                  self.stroke(75, 71, 191); 
+                  self.strokeWeight(6);
+                }
+              }
+
+              //Filter by Learning Disability
+              else if (isFilter.learning_disability){
+                if (studentsByField[fieldStudies[i]][j].arr[5] == 'yes'){ // If the gender of the point is male
+                  self.stroke(227, 74, 14);
+                  self.strokeWeight(6);
+                } else { // If the gender of the point is female
+                    self.stroke(96, 73, 245); 
+                    self.strokeWeight(6);
+                }
+              }
+              else {
+              // Set the stroke back to normal when the point stop hovering
+              self.stroke(colors[i]); 
+              self.strokeWeight(6); 
+            }
         }
 
         self.point(px, py)// draw new point
@@ -247,7 +303,7 @@ var myp5 = new p5(sketch1, 's1');
 
 //////////// Sketch Two///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
-var sketch2 = function( self, table ) { // p could be any variable name
+var sketch2 = function( self, table ) { // self could be any variable name
 
   self.preload = function() {
     table = self.loadTable("data/database-well-being-of-students-in-Nice.csv","csv","header");
@@ -255,8 +311,8 @@ var sketch2 = function( self, table ) { // p could be any variable name
 
   self.setup = function() {
 
-    cnv = self.createCanvas(1600, 800);
-    cnv.position(0, 900);
+    cnv = self.createCanvas(600, 400);
+    // cnv.position(0, 900);
 
     self.background(0, 0, 255);
     
@@ -288,6 +344,67 @@ var sketch2 = function( self, table ) { // p could be any variable name
   }
 };
 var myp5 = new p5(sketch2, 's2');
+
+
+
+//////////// Sketch Three///////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+var sketch3 = function( self ) { // self could be any variable name
+
+  // self.preload = function() {
+  //   table = self.loadTable("data/database-well-being-of-students-in-Nice.csv","csv","header");
+  // }
+
+  self.setup = function() {
+
+    cnv3 = self.createCanvas(600, 400);
+    // cnv3.position(0, 800);
+
+    self.background(0, 0, 255);
+    
+    studentsDepr = table.findRows("yes", "Depressive symptoms"); // Take only students with depression
+    gender = getGender(self, studentsDepr);
+    console.log(gender);
+
+    // This stops the draw() function to be always executing
+    self.noLoop();
+  }
+
+  self.draw = function() {
+    
+    var myBarChart = new Chart(cnv3, {
+      type: 'bar',
+      data: {
+        labels: ['Under 18', '19', '20', '20 and more'],
+        datasets: [{
+            label: 'Age Group',
+            data: [12, 19, 3, 5],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+      },
+      options: options,
+    });
+
+  }
+
+};
+var myp5 = new p5(sketch3, 's3');
 
 
 
@@ -363,4 +480,12 @@ var getGender = function(self, data) {
   genderDepr['male'] = males;
 
   return genderDepr;
+}
+
+// Clicking Button Event
+var onChange = function(option) {
+
+  for (key in isFilter){
+    if (key == sel.value()){isFilter[key] = true; } else {isFilter[key] = false;} //change sel.value() to option if using the button
+  }
 }
