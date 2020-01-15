@@ -297,30 +297,31 @@ var sketch1 = function( self ) { // self could be any variable name
               //Filter by Year of Study
               else if (isFilter.year){
                 self.noStroke();
-                self.fill('#90B2CB');
+                self.fill('#7EA58C');
                 self.square(w-500-300, 400, 20);
                 self.fill('black');
                 self.text('First', w-500-270, 415);  
 
-                self.fill('#7EA58C');
+                self.fill('#EAC859');
                 self.square(w-500-230, 400, 20);
                 self.fill('black');
                 self.text('Second', w-500-200, 415);
 
-                self.fill('#BA5050');
+                self.fill('#D91E36');
                 self.square(w-500-150, 400, 20);
                 self.fill('black');
                 self.text('Third', w-500-120, 415);
 
                 if (studentsByField[fieldStudies[i]][j].arr[4] == 'first'){ // For Student First Year
-                  self.stroke('#90B2CB'); 
-                  self.strokeWeight(6);
-                } else if(studentsByField[fieldStudies[i]][j].arr[4] == 'second'){ // For Student Second Year
                   self.stroke('#7EA58C'); 
                   self.strokeWeight(6);
-                } else { // For the rest
-                  self.stroke('#BA5050'); 
+                } else if(studentsByField[fieldStudies[i]][j].arr[4] == 'second'){ // For Student Second Year
+                  self.stroke('#EAC859'); 
                   self.strokeWeight(6);
+                } else { // For the rest
+                  self.stroke('#D91E36'); 
+                  self.strokeWeight(6);
+                  
                 }
               }
 
