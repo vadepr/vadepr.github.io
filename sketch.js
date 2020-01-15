@@ -98,6 +98,7 @@ var sketch1 = function( self ) { // self could be any variable name
     interactionSketch1 = self.createElement('p', '- <b>Hover</b> the dots to find out more information about the students. <br> - With this <b>dropdown</b> you will be able to filter the field of studies by: ');
     interactionSketch1.position(w-500-400, 1550);
 
+
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Drawing the axis
     self.stroke('#8B98AA');
@@ -180,15 +181,30 @@ var sketch1 = function( self ) { // self could be any variable name
       // learn_btn = self.createButton('Learning Disability');
       // learn_btn.position(300, h-150);
       // learn_btn.mousePressed(function() { onChange("learning_disability");});
-
-
       //DropDown Selection
       sel = self.createSelect();
-      sel.position(w-500-250, 1600);
-      sel.option('field');
-      sel.option('gender');
-      sel.option('year');
-      sel.option('learning_disability');
+      sel.position(w-500-380, 1610);
+      
+      // Style select
+      sel.style('color', '#777');
+      sel.style('font-weight', '300');
+      sel.style('padding-left', '10px');
+      sel.style('-moz-appearance', 'none');
+      sel.style('-webkit-appearance', 'none');
+      sel.style('appearance', 'none');
+      sel.style('border', '1px solid');
+      sel.style('height', '30px');
+      sel.style('width', '175px');
+      sel.style('background-image', 'linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc)');
+      sel.style('background-position', 'calc(100% - 20px) calc(1em + -2px), calc(100% - 15px) calc(1em + -2px), calc(100% - -1em) 0.5em');
+      sel.style('background-size', '5px 5px, 5px 5px, 1px 1.5em');
+      sel.style('background-repeat', 'no-repeat');
+      
+      // Values select
+      sel.option('Field of Study');
+      sel.option('Gender');
+      sel.option('Year of university');
+      sel.option('Learning disabilities');
       sel.changed(onChange);
       console.log(onChange);
 
@@ -265,14 +281,14 @@ var sketch1 = function( self ) { // self could be any variable name
               if (isFilter.gender){
                 self.noStroke();
                 self.fill('rgb(255,99,132)');
-                self.square(w-500-300, 400, 20);
+                self.square(w-500-190, 365, 20);
                 self.fill('black');
-                self.text('Male', w-500-270, 415);  
+                self.text('Male', w-500-160, 380);  
 
                 self.fill('rgb(255,205,86)');
-                self.square(w-500-230, 400, 20);
+                self.square(w-500-120, 365, 20);
                 self.fill('black');
-                self.text('Female', w-500-200, 415);  
+                self.text('Female', w-500-90, 380);  
 
                 //Filter by gender
                 if (studentsByField[fieldStudies[i]][j].arr[1] == 'male'){ // If the gender of the point is male
@@ -289,19 +305,23 @@ var sketch1 = function( self ) { // self could be any variable name
               else if (isFilter.year){
                 self.noStroke();
                 self.fill('#7EA58C');
-                self.square(w-500-300, 400, 20);
+                //self.square(w-500-300, 400, 20);
+                self.square(w-500-190, 365, 20);
                 self.fill('black');
-                self.text('First', w-500-270, 415);  
+                //self.text('First', w-500-270, 415);  
+                self.text('First', w-500-160, 380);  
 
                 self.fill('#EAC859');
-                self.square(w-500-230, 400, 20);
+                //self.square(w-500-230, 400, 20);
+                self.square(w-500-120, 365, 20);
                 self.fill('black');
-                self.text('Second', w-500-200, 415);
+                //self.text('Second', w-500-200, 415);
+                self.text('Second', w-500-90, 380);
 
                 self.fill('#D91E36');
-                self.square(w-500-150, 400, 20);
+                self.square(w-500-40, 365, 20);
                 self.fill('black');
-                self.text('Third', w-500-120, 415);
+                self.text('Third', w-500-10, 380);
 
                 if (studentsByField[fieldStudies[i]][j].arr[4] == 'first'){ // For Student First Year
                   self.stroke('#7EA58C'); 
@@ -320,14 +340,14 @@ var sketch1 = function( self ) { // self could be any variable name
               else if (isFilter.learning_disability){
                 self.noStroke();
                 self.fill('#F76A6A');
-                self.square(w-500-300, 400, 20);
+                self.square(w-500-190, 365, 20);
                 self.fill('black');
-                self.text('Yes', w-500-270, 415);  
+                self.text('Yes',w-500-160, 380);  
 
                 self.fill('#99C9AA');
-                self.square(w-500-230, 400, 20);
+                self.square(w-500-120, 365, 20);
                 self.fill('black');
-                self.text('No', w-500-200, 415); 
+                self.text('No', w-500-90, 380); 
 
                 if (studentsByField[fieldStudies[i]][j].arr[5] == 'yes'){ // If the gender of the point is male
                   self.stroke('#F76A6A');
@@ -536,7 +556,19 @@ var getGender = function(self, data) {
 
 // Clicking Button Event
 var onChange = function(option) {
+
+  if (sel.value() == 'Field of Study') {
+    aux = 'field';
+  } else if (sel.value() == 'Gender') {
+    aux = 'gender';
+  } else if (sel.value() == 'Year of university') {
+    aux = 'year';
+  } else if (sel.value() == 'Learning disabilities') {
+    aux = 'learning_disability'
+  }
+
+
   for (key in isFilter){
-    if (key == sel.value()){isFilter[key] = true;} else {isFilter[key] = false;} //change sel.value() to option if using the button
+    if (key == aux){isFilter[key] = true;} else {isFilter[key] = false;} //change sel.value() to option if using the button
   }
 }
