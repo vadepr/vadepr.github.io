@@ -87,25 +87,16 @@ var sketch1 = function( self ) { // self could be any variable name
     descriptionSketch1.position(w-500-400, 1300);
 
     // Description of Sketch 1
-    descSketch1 = self.createElement('p', 'This visualization represents the students with depressive symptoms in each field of study.');
+    descSketch1 = self.createElement('p', 'This visualization represents the students with depressive symptoms in each field of study.<br> - Each <b>point</b> represents a student with depressive symptoms. <br> - Each <b>circle</b> represents the field of study.');
     descSketch1.position(w-500-400, 1350);
-
-    descSketch1 = self.createElement('p', '- Each <b>point</b> represents a student with depressive symptoms.');
-    descSketch1.position(w-500-400, 1400);
-
-    descSketch1 = self.createElement('p', '- Each <b>circle</b> represents the field of study.');
-    descSketch1.position(w-500-400, 1420);
 
     // Title of interactions of Sketch 1
     titleIntSketch1 = self.createElement('h3', 'Interactions:');
     titleIntSketch1.position(w-500-400, 1500);
 
     // Descpr interactions Sketch 1
-    interactionSketch1 = self.createElement('p', '- <b>Hover</b> the dots to find out more information about the students.');
+    interactionSketch1 = self.createElement('p', '- <b>Hover</b> the dots to find out more information about the students. <br> - With this <b>dropdown</b> you will be able to filter the field of studies by: ');
     interactionSketch1.position(w-500-400, 1550);
-
-    interaction2Sketch1 = self.createElement('p', '- With this <b>dropdown</b> you will be able to filter the field of studies by: ');
-    interaction2Sketch1.position(w-500-400, 1570);
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Drawing the axis
