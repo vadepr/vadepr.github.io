@@ -42,8 +42,6 @@ leg {
   width: 300px;
   height: 200px;
   background-color: #f7f7f7;
-  border-radius: 4px; 
-  border: 1px solid #ddd;
 }
 
 labelCol {

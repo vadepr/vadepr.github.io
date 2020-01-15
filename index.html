@@ -3,7 +3,7 @@
     <script src="p5.sound.min.js"></script>
     <!-- Import chartjs -->
     <script src="node_modules/chart.js/dist/Chart.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -46,7 +46,15 @@
           With this webpage we only want to inform about this mental health problem.
         </p>
         <br>
-        <h2 id=titleDataset><b>Visualizations</b></h2>
+
+        <h2 id=titleDataset><b>Overall view of the data</b></h2>
+        <p id="introDepr">
+          So to make an introduction to the data, we have decided to create some simple visualizations, that will help us what are we working with.
+          On the one hand, we have a <b>doughnut chart </b> which represents the number of women and men who have depressive symptoms. 
+          On the other hand, we find a <b>bar chart </b> which show the age ranges that we can find in the data, and how many students of each age have depressive symtpoms.
+
+        </p>
+        <!--<h2 id=titleDataset><b>Visualizations</b></h2>
         <div id="visualizations" class="container">
           <div class="row" style="text-align: center;">
             <div class="col-sm" style="display: inline-block;">
@@ -58,7 +66,7 @@
             <div class="col-sm" style="display: inline-block;">
               <button id="visButton" type="button" class="btn btn-warning">Vis 3</button>
             </div>
-            <!--<div class="col-md-12">
+            <div class="col-md-12">
               <div class="main-timeline">
                 <a href="#" class="timeline">
                   <div class="timeline-content">
@@ -66,20 +74,18 @@
                   </div>
                 </a>
               </div>
-            </div>-->
+            </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
-
-    
-
 
     <div id="s1"></div>
     <div style="width: 100%; display: flex; justify-content: center;">
       <p id="s2" style="width: 35%; height: 90%; display: flex;"></p>
       <p id="s3" style="width: 35%; height: 90%; display: flex;"></p>
     </div>
+    
     <script src="sketch.js"></script>   
     <script>
       function moveToFieldStudy() {
