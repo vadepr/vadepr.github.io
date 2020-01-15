@@ -86,9 +86,6 @@ var sketch1 = function( self ) { // self could be any variable name
     descriptionSketch1 = self.createElement('h3', 'Description');
     descriptionSketch1.position(w-500-400, 1300);
 
-    separator = self.createElement('separator');
-    separator.position(1000, 20);
-
     // Description of Sketch 1
     descSketch1 = self.createElement('p', 'This visualization represents the students with depressive symptoms in each field of study.');
     descSketch1.position(w-500-400, 1350);
