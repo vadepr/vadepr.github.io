@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <meta charset="utf-8">
   </head>
@@ -20,7 +21,7 @@
         <ul class="navbar-nav">
           <li class="nav-item active">
             <button id="two" class="nav-link" onclick="moveToFieldStudy()">Field of Study</button>
-          </li>
+          </li> 
           <li class="nav-item">
             <button id="two" class="nav-link" onclick="moveToPie()">Pie Chart Test</button>
           </li>
@@ -51,8 +52,8 @@
           So to make an introduction to the data, we have decided to create some simple visualizations, that will help us what are we working with.
           On the one hand, we have a <b>doughnut chart </b> which represents the number of women and men who have depressive symptoms. 
           On the other hand, we find a <b>bar chart </b> which show the age ranges that we can find in the data, and how many students of each age have depressive symtpoms.
-
         </p>
+        <p id="introDepr"><i style="color: #008dc9" class="fa fa-info-circle"></i> For more information <b>hover</b> the charts.</p>
         <!--<h2 id=titleDataset><b>Visualizations</b></h2>
         <div id="visualizations" class="container">
           <div class="row" style="text-align: center;">
