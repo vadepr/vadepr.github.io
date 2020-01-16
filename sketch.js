@@ -11,7 +11,7 @@ var isFilter = {
   field: false,
   gender: false,
   year: false,
-  learning_disability: false,
+  anxiety: false
 };
 
 var options = {
@@ -57,6 +57,7 @@ var sketch1 = function( self ) { // self could be any variable name
     //get number of each study field
     numOfEachField = getNumOfEachUniqueElement(fieldCol);
 
+    console.log('Students: ', studentsDepr);
     // Students with depression by field
     studentsByField = createArrayByField(fieldStudies, studentsDepr);
 
@@ -186,7 +187,6 @@ var sketch1 = function( self ) { // self could be any variable name
       sel.position(w-500-380, 1610);
       
       // Style select
-      sel.style('color', '#777');
       sel.style('font-weight', '300');
       sel.style('padding-left', '10px');
       sel.style('-moz-appearance', 'none');
@@ -195,16 +195,20 @@ var sketch1 = function( self ) { // self could be any variable name
       sel.style('border', '1px solid');
       sel.style('height', '30px');
       sel.style('width', '175px');
+      sel.style('background', '#fff');
       sel.style('background-image', 'linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc)');
       sel.style('background-position', 'calc(100% - 20px) calc(1em + -2px), calc(100% - 15px) calc(1em + -2px), calc(100% - -1em) 0.5em');
       sel.style('background-size', '5px 5px, 5px 5px, 1px 1.5em');
       sel.style('background-repeat', 'no-repeat');
-      
+      sel.style('border-radius', '2px');
+      sel.style('border-color', 'white');
+      sel.style('box-shadow', '0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1');
+
       // Values select
       sel.option('Field of Study');
       sel.option('Gender');
       sel.option('Year of university');
-      sel.option('Learning disabilities');
+      sel.option('Anxiety');
       sel.changed(onChange);
       console.log(onChange);
 
@@ -216,7 +220,8 @@ var sketch1 = function( self ) { // self could be any variable name
         labelCol = self.createElement('labelCol');
         labelCol.position(fieldX-35, fieldY + 3);
         labelCol.style('background-color', colors[i]);
-        labelDesc = self.createElement('labelDesc', percentages[fieldStudies[i]] + ' out of ' + totalStudentsField[fieldStudies[i]] + ' students');
+        prc = ((percentages[fieldStudies[i]]/totalStudentsField[fieldStudies[i]])*100).toFixed(2);
+        labelDesc = self.createElement('labelDesc', percentages[fieldStudies[i]] + ' out of ' + totalStudentsField[fieldStudies[i]] + ' students <b> (' + prc + '%) </b>');
         labelDesc.position(fieldX, fieldY);
         fieldY += 30;
       }
@@ -254,15 +259,20 @@ var sketch1 = function( self ) { // self could be any variable name
           let detail = "Age: "+ studentsByField[fieldStudies[i]][j].arr[0]
                 + "\nGender: "+ studentsByField[fieldStudies[i]][j].arr[1]
                 //+ "\nFrench Nationality: " + studentsByField[fieldStudies[i]][j].arr[2]
-                + "\nField Studies: "+ studentsByField[fieldStudies[i]][j].arr[3]
-                + "\nYear: " + studentsByField[fieldStudies[i]][j].arr[4]
-                + "\nLearning Disability: " + studentsByField[fieldStudies[i]][j].arr[5]
+                //+ "\nField Studies: "+ studentsByField[fieldStudies[i]][j].arr[3]
+                //+ "\nYear: " + studentsByField[fieldStudies[i]][j].arr[4]
+                //+ "\nLearning Disability: " + studentsByField[fieldStudies[i]][j].arr[5]
+                //+ "\nPanic Attacks: " + studentsByField[fieldStudies[i]][j].arr[53]
+                //+ "\nAnxiety: " + studentsByField[fieldStudies[i]][j].arr[52]
+                + "\nWeight: " + studentsByField[fieldStudies[i]][j].arr[30]
+                + "\nHeight: " + studentsByField[fieldStudies[i]][j].arr[31]
+                + "\nSmoker: " + studentsByField[fieldStudies[i]][j].arr[55]
                 + "\nDrink: " + studentsByField[fieldStudies[i]][j].arr[57];
           
           //Show the detail in the black retangle
           self.noStroke();
           self.fill('#008dc9');
-          self.rect(self.mouseX,100,240,120, 5);
+          self.rect(self.mouseX,100,130,120, 5);
           self.fill('#f7f7f7');
           self.text(detail, self.mouseX + 10, 100 + 10, 270, 150);
           self.textSize(13);
@@ -304,7 +314,7 @@ var sketch1 = function( self ) { // self could be any variable name
               //Filter by Year of Study
               else if (isFilter.year){
                 self.noStroke();
-                self.fill('#7EA58C');
+                self.fill('#5E94D6');
                 //self.square(w-500-300, 400, 20);
                 self.square(w-500-190, 365, 20);
                 self.fill('black');
@@ -324,7 +334,7 @@ var sketch1 = function( self ) { // self could be any variable name
                 self.text('Third', w-500-10, 380);
 
                 if (studentsByField[fieldStudies[i]][j].arr[4] == 'first'){ // For Student First Year
-                  self.stroke('#7EA58C'); 
+                  self.stroke('#5E94D6'); 
                   self.strokeWeight(6);
                 } else if(studentsByField[fieldStudies[i]][j].arr[4] == 'second'){ // For Student Second Year
                   self.stroke('#EAC859'); 
@@ -356,8 +366,26 @@ var sketch1 = function( self ) { // self could be any variable name
                     self.stroke('#99C9AA'); 
                     self.strokeWeight(6);
                 }
-              }
-              else {
+              } else if (isFilter.anxiety) {
+                self.noStroke();
+                self.fill('#F76A6A');
+                self.square(w-500-190, 365, 20);
+                self.fill('black');
+                self.text('Yes',w-500-160, 380);  
+
+                self.fill('#5E94D6');
+                self.square(w-500-120, 365, 20);
+                self.fill('black');
+                self.text('No', w-500-90, 380); 
+
+                if (studentsByField[fieldStudies[i]][j].arr[52] == 'yes'){ // If the gender of the point is male
+                  self.stroke('#F76A6A');
+                  self.strokeWeight(6);
+                } else { // If the gender of the point is female
+                    self.stroke('#5E94D6'); 
+                    self.strokeWeight(6);
+                }
+              } else {
               // Set the stroke back to normal when the point stop hovering
               self.stroke(colors[i]); 
               self.strokeWeight(6); 
@@ -411,7 +439,7 @@ var sketch2 = function( self, table ) { // self could be any variable name
           borderWidth: 1
         }]
       },
-      options: options
+      //options: options
     });
   }
 };
@@ -563,10 +591,9 @@ var onChange = function(option) {
     aux = 'gender';
   } else if (sel.value() == 'Year of university') {
     aux = 'year';
-  } else if (sel.value() == 'Learning disabilities') {
-    aux = 'learning_disability'
+  } else if (sel.value() == 'Anxiety') {
+    aux = 'anxiety'
   }
-
 
   for (key in isFilter){
     if (key == aux){isFilter[key] = true;} else {isFilter[key] = false;} //change sel.value() to option if using the button
