@@ -93,11 +93,11 @@ var sketch1 = function( self ) { // self could be any variable name
 
     // Title of interactions of Sketch 1
     titleIntSketch1 = self.createElement('h3', 'Interactions:');
-    titleIntSketch1.position(w-500-400, 1500);
+    titleIntSketch1.position(w-500-400, 1460);
 
     // Descpr interactions Sketch 1
     interactionSketch1 = self.createElement('p', '- <b>Hover</b> the dots to find out more information about the students. <br> - With this <b>dropdown</b> you will be able to filter the field of studies by: ');
-    interactionSketch1.position(w-500-400, 1550);
+    interactionSketch1.position(w-500-400, 1500);
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////
